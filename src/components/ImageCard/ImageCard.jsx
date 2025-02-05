@@ -1,4 +1,4 @@
-
+import s from "./ImageCard.module.css"
 const ImageCard = ({
   image: {
     urls: { small, regular },
@@ -9,16 +9,14 @@ const ImageCard = ({
   openModal,
 }) => {
   return (
-    <div >
-      <img
+    <div>
+          <img
+              width="440"
+              height="320"
         src={small}
         alt={alt_description}
         onClick={() => openModal(regular, alt_description, description)}
       />
-      {likes < 999999 && <div >{likes}</div>}
-      <div >
-        {description !== null ? description : alt_description}
-      </div>
     </div>
   );
 };

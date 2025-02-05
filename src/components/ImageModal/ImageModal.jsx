@@ -30,23 +30,17 @@ export const ImageModal = ({
   closeModal,
   src,
   alt,
-  description,
 }) => {
   return (
     <Modal
       isOpen={modalIsOpen}
       onRequestClose={closeModal}
       style={customStyles}
-      //   closeTimeoutMS={200}
       shouldCloseOnEsc={
         true
-        /* Boolean indicating if pressing the esc key should close the modal
-     Note: By disabling the esc key from closing the modal
-     you may introduce an accessibility issue. */
       }
     >
       <img  src={src} alt={alt} />
-      <h3 >{description !== null ? description : alt}</h3>
     </Modal>
   );
 };

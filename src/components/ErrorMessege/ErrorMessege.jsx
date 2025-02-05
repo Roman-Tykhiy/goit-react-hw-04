@@ -1,21 +1,10 @@
 
-const ErrorMessage = ({
-  children,
-  textAlign = 'center',
-  marginBottom = '0',
-}) => {
-  return (
-    <p
-      className={[
-        // s['text'],
-        // s[textAlign],
-        // s[`marginBottom${marginBottom}`],
-      ].join(' ')}
-    >
-      
-    </p>
-  );
-};
+const ErrorMessage =  (isEmpty) => {
+    return <p>Нічого не знайдено</p>
+    };
+
+
+
 export default ErrorMessage;
 
 

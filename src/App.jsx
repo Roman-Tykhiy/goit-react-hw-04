@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
-// import { FaRegSadCry } from 'react-icons/fa';
-// import { IoSearch } from 'react-icons/io5';
-// import { BiSolidError } from 'react-icons/bi';
-// import toast from 'react-hot-toast';
+import s from "./App.module.css"
 import SearchBar from './components/SearchBar/SearchBar';
 import * as imagesService from './cervise/Apy';
 import ImageGallery from './components/ImageGalery/ImegeGalery';
 import Loader from './components/Loader/Loader';
 import ErrorMessage from './components/ErrorMessege/ErrorMessege';
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
-// import s from './App.module.css';
 import { ImageModal } from './components/ImageModal/ImageModal';
+import toast from 'react-hot-toast';
+
 
 function App() {
   const [images, setImages] = useState([]);
@@ -34,15 +32,23 @@ function App() {
           query,
           page
         );
-
-        if (!results.length) {
-          return setIsEmpty(true);
+        const mes = () => {
+          if (results.length) {
+            return toast.success("Знайдено картки")
+          }
         }
-
+        mes();
+        if (!results.length) {
+          toast.error("Карток не знайдено")
+          return setIsEmpty(true);
+          
+        }
+      
         setImages(prev => [...prev, ...results]);
-        setIsVisible(page < total_pages);
-      } catch (error) {
+        setIsVisible(page < total_pages)
+        } catch (error) {
         setError(error.message);
+        toast("Сервер не відповідає")
       } finally {
         setIsLoading(false);
       }
@@ -76,12 +82,9 @@ function App() {
   return (
     <>
       {!modalIsOpen && <SearchBar onSearch={handleSetQuery} />}
-      <div className="container">
-        {!images.length && !isEmpty && (
-          <ErrorMessage>
-            Пошук підтримує українську мову. Тож почнемо пошуки
-          </ErrorMessage>
-        )}
+      <div className={s.container}>
+        {!images.length && !isEmpty && !error && (
+            "Введіть дані для пошуку")}
         {images.length > 0 && (
           <ImageGallery images={images} openModal={openModal} />
         )}
@@ -91,16 +94,8 @@ function App() {
             {isLoading ? 'Завантаження...' : 'Завантажити більше'}
           </LoadMoreBtn>
         )}
-        {error && (
-          <ErrorMessage>
-            <BiSolidError /> Щось пішло не так - {error}
-          </ErrorMessage>
-        )}
-        {isEmpty && (
-          
-            "Вибач. Я не знайшов зображень ..."
-          
-        )}
+        {isEmpty && <ErrorMessage isEmpty={isEmpty} />}
+        {error &&   <p>Щось пішло не так</p>}
         <ImageModal
           modalIsOpen={modalIsOpen}
           closeModal={closeModal}
